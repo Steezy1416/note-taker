@@ -18,9 +18,15 @@ router.get("/notes/:id", (req, res) => {
 //post the new note
 router.post("/notes", (req, res) => {
 
-    newNote = req.body
-    newNote.id = notes.length + 1
+    console.log("helolooooooogfdgjsfdjgg")
+
+    const newNote = {
+        id: notes.length +1,
+        title: req.params.title,
+        text: req.params.text
+    }
     notes.push(newNote)
+
     fs.writeFileSync(path.join(__dirname, "./data/db.json"),JSON.stringify({notes}, null, 2))
     res.send(notes)
 })
