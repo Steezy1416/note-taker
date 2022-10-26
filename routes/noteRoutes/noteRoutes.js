@@ -1,4 +1,5 @@
 const fs = require("fs")
+const path = require("path")
 const router = require("express").Router()
 const notes = require("../../data/db.json")
 
@@ -10,31 +11,29 @@ router.get("/notes", (req, res) => {
 
 //gets a specific note based on id
 router.get("/notes/:id", (req, res) => {
-    const noteSelected = notes.filter(note => note.id === parseInt(req.params.id))
-    fs.writeFileSync(path.join(__dirname, "./data/db.json"), JSON.stringify({notes}), null, 2 )
+    const noteSelected = notes.filter(note => note.id === parseInt(req.body.id))
+    fs.writeFileSync("./data/db.json", JSON.stringify(notes), null, 2 )
     res.json(noteSelected)
 })
 
 //post the new note
 router.post("/notes", (req, res) => {
 
-    console.log("helolooooooogfdgjsfdjgg")
-
     const newNote = {
         id: notes.length +1,
-        title: req.params.title,
-        text: req.params.text
+        title: req.body.title,
+        text: req.body.text
     }
     notes.push(newNote)
 
-    fs.writeFileSync(path.join(__dirname, "./data/db.json"),JSON.stringify({notes}, null, 2))
+    fs.writeFileSync("./data/db.json", JSON.stringify(notes), null, 2)
     res.send(notes)
 })
 
 //deletes note based on id
 router.delete("/notes/:id", (req, res) => {
-    const newArray = notes.filter(note => note.id != parseInt(req.params.id))
-    fs.writeFileSync(path.join(__dirname, "./data/db.json"), JSON.stringify({notes}), null, 2 )
+    const newArray = notes.filter(note => note.id != parseInt(req.body.id))
+    fs.writeFileSync("./data/db.json", JSON.stringify(notes), null, 2 )
     res.json(newArray)
 })
 
