@@ -1,7 +1,7 @@
 const fs = require("fs")
 const path = require("path")
 const router = require("express").Router()
-const notes = require("../../data/db.json")
+let notes = require("../../data/db.json")
 
 //displays all notes data
 router.get("/notes", (req, res) => {
@@ -26,7 +26,8 @@ router.post("/notes", (req, res) => {
 //deletes note based on id
 router.delete("/notes/:id", (req, res) => {
     const newArray = notes.filter(note => note.id != parseInt(req.params.id))
-    fs.writeFileSync("./data/db.json", JSON.stringify(newArray))
+    notes = newArray
+    fs.writeFileSync("./data/db.json", JSON.stringify(notes))
     res.json(notes)
 })
 
