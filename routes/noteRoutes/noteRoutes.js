@@ -9,13 +9,6 @@ router.get("/notes", (req, res) => {
     res.json(notes)
 })
 
-//gets a specific note based on id
-router.get("/notes/:id", (req, res) => {
-    const noteSelected = notes.filter(note => note.id === parseInt(req.body.id))
-    fs.writeFileSync("./data/db.json", JSON.stringify(notes), null, 2 )
-    res.json(noteSelected)
-})
-
 //post the new note
 router.post("/notes", (req, res) => {
 
@@ -26,15 +19,15 @@ router.post("/notes", (req, res) => {
     }
     notes.push(newNote)
 
-    fs.writeFileSync("./data/db.json", JSON.stringify(notes), null, 2)
+    fs.writeFileSync("./data/db.json", JSON.stringify(notes))
     res.send(notes)
 })
 
 //deletes note based on id
 router.delete("/notes/:id", (req, res) => {
-    const newArray = notes.filter(note => note.id != parseInt(req.body.id))
-    fs.writeFileSync("./data/db.json", JSON.stringify(notes), null, 2 )
-    res.json(newArray)
+    const newArray = notes.filter(note => note.id != parseInt(req.params.id))
+    fs.writeFileSync("./data/db.json", JSON.stringify(newArray))
+    res.json(notes)
 })
 
 module.exports = router
